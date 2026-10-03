@@ -1,0 +1,373 @@
+# ==========================================================
+#  PlayerLogger configuration
+# ==========================================================
+#
+# Every action in the "events:" section has its own switches:
+#
+#   enabled      master switch for this action
+#   ingame       show the alert to staff in-game
+#   discord      send the alert to Discord
+#   file         write the alert to plugins/PlayerLogger/logs/
+#   sensitive    true = every alert of this action is shown in red and pings discord.mention
+#   webhook-url  send this action to its OWN webhook (leave "" to use the default)
+#   channel-id   OR send this action to its OWN channel through the bot
+#                (needs discord.bot-token and a bot that can write in that channel)
+#
+# Discord destination priority for each action:
+#   1. webhook-url  2. channel-id  3. discord.default-webhook-url  4. discord.default-channel-id
+#
+# A webhook already belongs to one channel, so a webhook is all you need.
+# channel-id is only for people who prefer to use a bot instead of webhooks.
+# Always put IDs and tokens in "quotes".
+#
+# Commands: /plog reload | status | summary | test [action] | alerts
+
+general:
+  # Write logs to plugins/PlayerLogger/logs/YYYY-MM-DD.log
+  log-to-file: true
+  # Delete log files older than this many days (0 = never delete)
+  log-retention-days: 30
+  # Players that are never logged (names, case-insensitive).
+  # Players with the permission playerlogger.exempt are ignored as well.
+  ignored-players: []
+
+discord:
+  enabled: true
+  # Used by every action that has no webhook-url / channel-id of its own.
+  # Discord: Channel settings > Integrations > Webhooks > New Webhook > Copy Webhook URL
+  default-webhook-url: ""
+  # Optional bot mode (only needed if you use channel-id anywhere)
+  bot-token: ""
+  default-channel-id: ""
+  # Webhook mode only: name and avatar of the sender
+  username: "PlayerLogger"
+  avatar-url: ""
+  # Shown in the footer of every embed, e.g. "My Survival Server" (empty = just "PlayerLogger")
+  server-name: ""
+  # Show the player's head next to the name
+  show-avatars: true
+  # Add World / Location / Gamemode / Ping fields to player embeds
+  embed-fields: true
+  # Who gets pinged for sensitive alerts. Examples: "<@&ROLE_ID>" or "<@USER_ID>"
+  mention: ""
+  # Alerts are sent in batches (Discord rate limits). 40 ticks = 2 seconds
+  send-interval-ticks: 40
+
+ingame:
+  enabled: true
+  # MiniMessage format for player alerts. Placeholders:
+  #   <title> <action> <player> <detail> <world> <x> <y> <z> <gamemode> <ping>
+  # <c> is the action's color (use it like a tag: <c>text</c>).
+  # Hover over the player name to see world, location, gamemode and ping; click to fill /tp.
+  format: "<dark_gray>[<gold>PLog</gold>]</dark_gray> <c><bold><title></bold></c> <dark_gray>|</dark_gray> <hover:show_text:'<gray>World: <white><world></white><newline>Location: <white><x>, <y>, <z></white><newline>Gamemode: <white><gamemode></white><newline>Ping: <white><ping> ms</white><newline><yellow>Click to fill /tp</yellow></gray>'><click:suggest_command:'/tp <x> <y> <z>'><yellow><player></yellow></click></hover><dark_gray> » </dark_gray><white><detail></white>"
+  # Format for server alerts (TPS alert, daily summary). Same placeholders.
+  system-format: "<dark_gray>[<gold>PLog</gold>]</dark_gray> <c><bold><title></bold></c><dark_gray> » </dark_gray><white><detail></white>"
+  sensitive-prefix: "<red><bold>! </bold></red>"
+  # true = staff do not see their own actions
+  hide-own: false
+
+# ----------------------------------------------------------
+#  Server monitoring
+# ----------------------------------------------------------
+monitoring:
+  tps-alert:
+    # Alert when the 1-minute TPS drops below this value
+    threshold: 15.0
+    # Below this value the alert is marked sensitive (red + mention)
+    critical-below: 10.0
+    # How often TPS is checked
+    check-interval-seconds: 30
+    # Minimum minutes between two alerts while the lag continues
+    cooldown-minutes: 5
+    # Send a "TPS Recovered" message when the server is fine again
+    send-recovery: true
+    # No alerts right after the server starts (startup is always laggy)
+    startup-grace-seconds: 120
+  daily-summary:
+    # Server time, HH:mm. The report covers the time since the last report.
+    time: "00:00"
+    # How many players / commands to list (1-10)
+    top-count: 5
+    # Do not send an empty report
+    skip-if-empty: true
+
+# ----------------------------------------------------------
+#  Per-action settings
+# ----------------------------------------------------------
+events:
+  # Every command a player types (including cancelled ones). See filters.commands.
+  command:
+    enabled: true
+    ingame: true
+    discord: true
+    file: true
+    sensitive: false
+    webhook-url: ""
+    channel-id: ""
+
+  # Public chat messages. See filters.chat.
+  chat:
+    enabled: true
+    ingame: true
+    discord: true
+    file: true
+    sensitive: false
+    webhook-url: ""
+    channel-id: ""
+
+  # Text written on signs.
+  sign:
+    enabled: true
+    ingame: true
+    discord: true
+    file: true
+    sensitive: false
+    webhook-url: ""
+    channel-id: ""
+
+  # Book editing and signing (with the book text).
+  book:
+    enabled: true
+    ingame: true
+    discord: true
+    file: true
+    sensitive: false
+    webhook-url: ""
+    channel-id: ""
+
+  # A player joins the server. See filters.join.
+  join:
+    enabled: true
+    ingame: true
+    discord: true
+    file: true
+    sensitive: false
+    webhook-url: ""
+    channel-id: ""
+
+  # A player leaves the server.
+  quit:
+    enabled: true
+    ingame: true
+    discord: true
+    file: true
+    sensitive: false
+    webhook-url: ""
+    channel-id: ""
+
+  # A player gets kicked.
+  kick:
+    enabled: true
+    ingame: true
+    discord: true
+    file: true
+    sensitive: false
+    webhook-url: ""
+    channel-id: ""
+
+  # A player dies (with the death message).
+  death:
+    enabled: true
+    ingame: true
+    discord: true
+    file: true
+    sensitive: false
+    webhook-url: ""
+    channel-id: ""
+
+  # Teleports. Which causes are logged: filters.teleport.causes.
+  teleport:
+    enabled: true
+    ingame: true
+    discord: true
+    file: true
+    sensitive: false
+    webhook-url: ""
+    channel-id: ""
+
+  # Gamemode changes.
+  gamemode:
+    enabled: true
+    ingame: true
+    discord: true
+    file: true
+    sensitive: false
+    webhook-url: ""
+    channel-id: ""
+
+  # Block breaking. Which blocks: filters.blocks.
+  block-break:
+    enabled: true
+    ingame: true
+    discord: true
+    file: true
+    sensitive: false
+    webhook-url: ""
+    channel-id: ""
+
+  # Block placing. Which blocks: filters.blocks.
+  block-place:
+    enabled: true
+    ingame: true
+    discord: true
+    file: true
+    sensitive: false
+    webhook-url: ""
+    channel-id: ""
+
+  # Taking an item out of an anvil (name, enchants, level cost).
+  anvil:
+    enabled: true
+    ingame: true
+    discord: true
+    file: true
+    sensitive: false
+    webhook-url: ""
+    channel-id: ""
+
+  # Using an enchanting table.
+  enchant:
+    enabled: true
+    ingame: true
+    discord: true
+    file: true
+    sensitive: false
+    webhook-url: ""
+    channel-id: ""
+
+  # Emptying a bucket. Which buckets: filters.buckets.
+  bucket:
+    enabled: true
+    ingame: true
+    discord: true
+    file: true
+    sensitive: false
+    webhook-url: ""
+    channel-id: ""
+
+  # A player kills a villager or wandering trader.
+  villager-kill:
+    enabled: true
+    ingame: true
+    discord: true
+    file: true
+    sensitive: false
+    webhook-url: ""
+    channel-id: ""
+
+  # A player damages a villager. Can be spammy, so it is OFF by default.
+  villager-damage:
+    enabled: false
+    ingame: true
+    discord: true
+    file: true
+    sensitive: false
+    webhook-url: ""
+    channel-id: ""
+
+  # A player trades with a villager. Limit it with filters.villager.trade-only-items.
+  villager-trade:
+    enabled: true
+    ingame: true
+    discord: true
+    file: true
+    sensitive: false
+    webhook-url: ""
+    channel-id: ""
+
+  # A player cures a zombie villager.
+  villager-cure:
+    enabled: true
+    ingame: true
+    discord: true
+    file: true
+    sensitive: false
+    webhook-url: ""
+    channel-id: ""
+
+  # A player uses a name tag or lead on a villager.
+  villager-name:
+    enabled: true
+    ingame: true
+    discord: true
+    file: true
+    sensitive: false
+    webhook-url: ""
+    channel-id: ""
+
+  # Server lag alert. Thresholds: monitoring.tps-alert.
+  tps-alert:
+    enabled: true
+    ingame: true
+    discord: true
+    file: true
+    sensitive: false
+    webhook-url: ""
+    channel-id: ""
+
+  # Daily statistics report. Settings: monitoring.daily-summary. (In-game and file are off by default.)
+  daily-summary:
+    enabled: true
+    ingame: false
+    discord: true
+    file: false
+    sensitive: false
+    webhook-url: ""
+    channel-id: ""
+
+# ----------------------------------------------------------
+#  Filters
+# ----------------------------------------------------------
+filters:
+  commands:
+    # Commands that are never logged (empty = every command is logged)
+    ignored: []
+    # Commands that are logged, but their arguments are hidden: "/login ********"
+    # Remove a command from this list only if you really want passwords in your logs!
+    mask-args: [login, l, register, reg, changepassword, cp, unregister, passwd]
+    # Commands that are always treated as sensitive (red alert + mention)
+    sensitive: [op, deop, gamemode, gm, give, kill, stop, reload, ban, ban-ip, pardon, whitelist, lp, luckperms, execute, fill, setblock, summon, clear, effect, enchant, tp, teleport]
+
+  chat:
+    # Chat messages, signs and books containing one of these words become sensitive.
+    # Example: [hack, cheat, grief]
+    sensitive-words: []
+
+  join:
+    # Add the player's IP address to join alerts
+    log-ip: false
+
+  teleport:
+    # Which teleport causes are logged (COMMAND, PLUGIN, UNKNOWN, ENDER_PEARL, ...)
+    causes: [COMMAND, PLUGIN, UNKNOWN]
+
+  blocks:
+    # true = log EVERY block break/place (very spammy!)
+    log-all: false
+    # Only these blocks are logged
+    watched:
+      - DIAMOND_ORE
+      - DEEPSLATE_DIAMOND_ORE
+      - ANCIENT_DEBRIS
+      - EMERALD_ORE
+      - DEEPSLATE_EMERALD_ORE
+      - SPAWNER
+      - LAVA
+      - FIRE
+    # These blocks are sensitive: red alert + mention
+    sensitive:
+      - TNT
+      - BEDROCK
+      - COMMAND_BLOCK
+      - CHAIN_COMMAND_BLOCK
+      - REPEATING_COMMAND_BLOCK
+      - STRUCTURE_BLOCK
+
+  buckets:
+    # Buckets that are logged when emptied (LAVA_BUCKET, WATER_BUCKET, POWDER_SNOW_BUCKET, ...)
+    watched: [LAVA_BUCKET]
+
+  villager:
+    # Only log trades that give one of these items (empty = log every trade)
+    # Example: [ENCHANTED_BOOK, DIAMOND_SWORD, DIAMOND_PICKAXE]
+    trade-only-items: []

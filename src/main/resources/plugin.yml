@@ -1,0 +1,23 @@
+name: PlayerLogger
+version: '1.0.0'
+main: me.denis.playerlogger.PlayerLoggerPlugin
+api-version: '1.21'
+author: Denis
+description: Logs player commands, chat and actions to Discord, in-game and file.
+
+commands:
+  playerlogger:
+    description: PlayerLogger main command
+    aliases: [plog]
+    usage: /<command> <reload|alerts|status|summary|test>
+
+permissions:
+  playerlogger.admin:
+    description: Reload config and run tests
+    default: op
+  playerlogger.alert:
+    description: Receive in-game alerts
+    default: op
+  playerlogger.exempt:
+    description: Player is never logged
+    default: false
