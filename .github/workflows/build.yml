@@ -1,4 +1,4 @@
-name: Build PlayerLogger
+name: Build gc-playerlogger
 
 on:
   push:
@@ -18,5 +18,5 @@ jobs:
         run: mvn -B clean package
       - uses: actions/upload-artifact@v4
         with:
-          name: PlayerLogger
-          path: target/PlayerLogger.jar
+          name: gc-playerlogger
+          path: target/*.jar
