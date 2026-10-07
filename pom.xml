@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>me.denis</groupId>
-    <artifactId>PlayerLogger</artifactId>
+    <groupId>gc</groupId>
+    <artifactId>gc-playerlogger</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
@@ -31,12 +31,31 @@
     </dependencies>
 
     <build>
-        <finalName>PlayerLogger</finalName>
+        <finalName>gc-playerlogger</finalName>
+
+        <!-- everything lives flat in ./src -->
+        <sourceDirectory>src</sourceDirectory>
+        <resources>
+            <resource>
+                <directory>src</directory>
+                <includes>
+                    <include>plugin.yml</include>
+                    <include>config.yml</include>
+                </includes>
+            </resource>
+        </resources>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.13.0</version>
+                <configuration>
+                    <!-- ignore an old src/main folder if it still exists in the repo -->
+                    <excludes>
+                        <exclude>main/**</exclude>
+                    </excludes>
+                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -1,0 +1,22 @@
+name: gc-playerlogger
+version: '1.0.0'
+main: gc.playerlogger.PlayerLoggerPlugin
+api-version: '1.21'
+description: Logs player commands, chat and actions to Discord, in-game and file.
+
+commands:
+  playerlogger:
+    description: gc-playerlogger main command
+    aliases: [plog]
+    usage: /<command> <reload|alerts|status|summary|test>
+
+permissions:
+  playerlogger.admin:
+    description: Reload config and run tests
+    default: op
+  playerlogger.alert:
+    description: Receive in-game alerts
+    default: op
+  playerlogger.exempt:
+    description: Player is never logged
+    default: false
