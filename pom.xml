@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>gc</groupId>
-    <artifactId>gc-playerlogger</artifactId>
-    <version>1.0.0</version>
+    <artifactId>GC-PlayerLogger</artifactId>
+    <version>1.1.0</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -31,7 +31,7 @@
     </dependencies>
 
     <build>
-        <finalName>gc-playerlogger</finalName>
+        <finalName>GC-PlayerLogger</finalName>
 
         <!-- everything lives flat in ./src -->
         <sourceDirectory>src</sourceDirectory>

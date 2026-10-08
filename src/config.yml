@@ -1,5 +1,5 @@
 # ==========================================================
-#  gc-playerlogger configuration
+#  GC-PlayerLogger configuration
 # ==========================================================
 #
 # Every action in the "events:" section has its own switches:
@@ -7,7 +7,7 @@
 #   enabled      master switch for this action
 #   ingame       show the alert to staff in-game
 #   discord      send the alert to Discord
-#   file         write the alert to plugins/gc-playerlogger/logs/
+#   file         write the alert to plugins/GC-PlayerLogger/logs/
 #   sensitive    true = every alert of this action is shown in red and pings discord.mention
 #   webhook-url  send this action to its OWN webhook (leave "" to use the default)
 #   channel-id   OR send this action to its OWN channel through the bot
@@ -22,8 +22,14 @@
 #
 # Commands: /plog reload | status | summary | test [action] | alerts
 
+# Internal version of this file - do not change it.
+# Your config is never overwritten. When a new plugin version adds options, only the
+# missing ones are added (your values and comments stay as they are) and a backup
+# called config-backup-*.yml is saved first. If nothing is new, the file is not touched.
+config-version: 1
+
 general:
-  # Write logs to plugins/gc-playerlogger/logs/YYYY-MM-DD.log
+  # Write logs to plugins/GC-PlayerLogger/logs/YYYY-MM-DD.log
   log-to-file: true
   # Delete log files older than this many days (0 = never delete)
   log-retention-days: 30
@@ -40,9 +46,9 @@ discord:
   bot-token: ""
   default-channel-id: ""
   # Webhook mode only: name and avatar of the sender
-  username: "gc-playerlogger"
+  username: "GC-PlayerLogger"
   avatar-url: ""
-  # Shown in the footer of every embed, e.g. "My Survival Server" (empty = just "gc-playerlogger")
+  # Shown in the footer of every embed, e.g. "My Survival Server" (empty = just "GC-PlayerLogger")
   server-name: ""
   # Show the player's head next to the name
   show-avatars: true

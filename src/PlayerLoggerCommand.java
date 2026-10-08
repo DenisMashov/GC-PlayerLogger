@@ -39,7 +39,7 @@ public final class PlayerLoggerCommand implements TabExecutor {
                     return true;
                 }
                 plugin.reloadAll();
-                sender.sendMessage(Component.text("gc-playerlogger config reloaded.", NamedTextColor.GREEN));
+                sender.sendMessage(Component.text("GC-PlayerLogger config reloaded.", NamedTextColor.GREEN));
             }
             case "alerts" -> {
                 if (!(sender instanceof Player p)) {
@@ -59,7 +59,7 @@ public final class PlayerLoggerCommand implements TabExecutor {
                     noPerm(sender);
                     return true;
                 }
-                sender.sendMessage(Component.text("gc-playerlogger status", NamedTextColor.GOLD));
+                sender.sendMessage(Component.text("GC-PlayerLogger status", NamedTextColor.GOLD));
                 for (String line : logManager.statusLines()) {
                     sender.sendMessage(Component.text(line, NamedTextColor.GRAY));
                 }

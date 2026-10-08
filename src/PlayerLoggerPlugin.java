@@ -10,7 +10,9 @@ public final class PlayerLoggerPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        saveDefaultConfig();
+        saveDefaultConfig();          // only creates config.yml if it does not exist
+        ConfigUpdater.update(this);   // adds missing options after updates, never overwrites
+        reloadConfig();
 
         logManager = new LogManager(this);
         logManager.loadStats();
@@ -31,7 +33,7 @@ public final class PlayerLoggerPlugin extends JavaPlugin {
             cmd.setTabCompleter(handler);
         }
 
-        getLogger().info("gc-playerlogger enabled.");
+        getLogger().info("GC-PlayerLogger enabled.");
     }
 
     @Override

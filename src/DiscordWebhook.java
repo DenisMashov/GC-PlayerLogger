@@ -43,7 +43,7 @@ public final class DiscordWebhook {
     public DiscordWebhook(PlayerLoggerPlugin plugin, String username, String avatarUrl,
                           String mention, String botToken) {
         this.plugin = plugin;
-        this.username = username == null ? "gc-playerlogger" : username;
+        this.username = username == null ? "GC-PlayerLogger" : username;
         this.avatarUrl = avatarUrl == null ? "" : avatarUrl;
         this.mention = mention == null ? "" : mention;
         this.botToken = botToken == null ? "" : botToken.trim();
@@ -133,7 +133,7 @@ public final class DiscordWebhook {
             HttpRequest.Builder rb = HttpRequest.newBuilder(URI.create(url))
                     .timeout(Duration.ofSeconds(8))
                     .header("Content-Type", "application/json; charset=utf-8")
-                    .header("User-Agent", "DiscordBot (gc-playerlogger, 1.0.0)")
+                    .header("User-Agent", "DiscordBot (GC-PlayerLogger, 1.0.0)")
                     .POST(HttpRequest.BodyPublishers.ofString(sb.toString(), StandardCharsets.UTF_8));
             if (viaBot) {
                 rb.header("Authorization", "Bot " + botToken);

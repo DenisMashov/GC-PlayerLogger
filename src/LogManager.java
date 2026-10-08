@@ -66,7 +66,7 @@ public final class LogManager {
     private final StatsTracker stats = new StatsTracker();
     private final Set<UUID> mutedStaff = ConcurrentHashMap.newKeySet();
     private final ExecutorService fileExecutor = Executors.newSingleThreadExecutor(r -> {
-        Thread t = new Thread(r, "gc-playerlogger-File");
+        Thread t = new Thread(r, "GC-PlayerLogger-File");
         t.setDaemon(true);
         return t;
     });
@@ -118,7 +118,7 @@ public final class LogManager {
         if (c.getBoolean("discord.enabled", false)) {
             discord = new DiscordWebhook(
                     plugin,
-                    c.getString("discord.username", "gc-playerlogger"),
+                    c.getString("discord.username", "GC-PlayerLogger"),
                     c.getString("discord.avatar-url", ""),
                     c.getString("discord.mention", ""),
                     c.getString("discord.bot-token", ""));
@@ -413,6 +413,7 @@ public final class LogManager {
             msg = MM.deserialize(prefix + format,
                     Placeholder.styling("c", TextColor.color(colorOf(e))),
                     Placeholder.parsed("action", safe(e.action().display())),
+                    Placeholder.parsed("category", safe(e.action().display())),
                     Placeholder.unparsed("title", e.title()),
                     Placeholder.parsed("player", safe(e.player())),
                     Placeholder.unparsed("detail", e.detail()),
@@ -541,7 +542,7 @@ public final class LogManager {
 
         String server = str(cfg, "discord.server-name");
         sb.append(",\"footer\":{\"text\":")
-          .append(q(server.isBlank() ? "gc-playerlogger" : server + " \u2022 gc-playerlogger"))
+          .append(q(server.isBlank() ? "GC-PlayerLogger" : server + " \u2022 GC-PlayerLogger"))
           .append("}}");
         return sb.toString();
     }
